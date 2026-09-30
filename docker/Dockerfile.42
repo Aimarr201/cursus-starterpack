@@ -1,0 +1,54 @@
+# syntax=docker/dockerfile:1.7
+FROM debian:bookworm-slim
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    LANG=es_ES.UTF-8 \
+    LANGUAGE=es_ES:es \
+    VIRTUAL_ENV=/opt/venv \
+    PATH=/opt/venv/bin:$PATH
+
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
+    apt-get update \
+    && apt-get install -y --no-install-recommends \
+        ca-certificates \
+        curl \
+        jq \
+        dnsutils \
+        locales \
+        build-essential \
+        git \
+        vim \
+        python3 \
+        python3-pip \
+        python3-venv \
+    && sed -i 's/^# *\(es_ES.UTF-8 UTF-8\)/\1/' /etc/locale.gen \
+    && locale-gen \
+    && update-locale LANG=es_ES.UTF-8 LANGUAGE=es_ES:es \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN --mount=type=cache,target=/root/.cache/pip \
+    python3 -m venv /opt/venv \
+    && pip install --upgrade pip setuptools wheel \
+    && pip install norminette mypy flake8
+
+RUN install -d /usr/share/vim/vimfiles/plugin \
+    && git clone --depth 1 https://github.com/42Paris/42header.git /tmp/42header \
+    && cp /tmp/42header/plugin/stdheader.vim /usr/share/vim/vimfiles/plugin/stdheader.vim \
+    && rm -rf /tmp/42header \
+    && printf '%s\n' \
+        "if exists('\$USER42') && \$USER42 !=# ''" \
+        "    let g:user42 = \$USER42" \
+        "endif" \
+        "if exists('\$MAIL42') && \$MAIL42 !=# ''" \
+        "    let g:mail42 = \$MAIL42" \
+        "endif" \
+        > /root/.vimrc
+
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["bash"]
+
+WORKDIR /42
