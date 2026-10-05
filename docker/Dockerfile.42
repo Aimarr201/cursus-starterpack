@@ -45,6 +45,42 @@ RUN install -d /usr/share/vim/vimfiles/plugin \
         "endif" \
         > /root/.vimrc
 
+RUN printf '%s\n' \
+    "alias ls='ls --color=auto'" \
+    "" \
+    "alias ..='cd ..'" \
+    "alias ...='cd ../..'" \
+    "alias ....='cd ../../..'" \
+    "" \
+    "alias gs='git status'" \
+    "alias gd='git diff'" \
+    "alias ga='git add -A'" \
+    "alias gp='git push'" \
+    "alias gl='git log --oneline --graph --decorate'" \
+    "" \
+    "gc() {" \
+    "        git commit -m \"$@\"" \
+    "}" \
+    "" \
+    "normi() {" \
+    "        clear && norminette" \
+    "}" \
+    "" \
+    "c() {" \
+    "        clear && cc -Wall -Wextra -Werror -fsanitize=address -g3 \"$@\" && ./a.out && rm a.out" \
+    "}" \
+    "" \
+    "m() {" \
+    "        clear\\" \
+    "        && make\\" \
+    "        && cc -Wall -Wextra -Werror -fsanitize=address -g3 \"$@\"\\" \
+    "        && clear\\" \
+    "        && ./a.out\\" \
+    "        && make fclean > /dev/null\\" \
+    "        && rm a.out" \
+    "}" \
+    >> /root/.bashrc
+
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 

@@ -1,0 +1,11 @@
+.gitignore
+*.pyc
+*cache*
+.venv
+.env
+.vscode
+*.o
+*.a
+*.out
+*.pdf
+*tmp*

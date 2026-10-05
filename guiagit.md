@@ -66,9 +66,31 @@ git config --global user.email "tu@email.com"
     git log --oneline
     ```
 
+### Gestionar archivos: mover, renombrar y borrar
+Cuando trabajas con archivos, Git también te ayuda a mantener el historial claro.
+
+*   **Mover o renombrar un archivo:**
+    ```bash
+    git mv archivo.txt nuevo_nombre.txt
+    ```
+    Exactamante lo mismo que el comando `mv` pero conservando el historial.
+
+*   **Borrar un archivo del proyecto:**
+    ```bash
+    git rm archivo.txt
+    ```
+    Git elimina el archivo y deja el cambio listo para commitear.
+
+*   **Ver qué ha cambiado exactamente:**
+    ```bash
+    git diff
+    git diff --staged
+    ```
+    Muy útil antes de hacer commit para revisar tus cambios.
+
 ---
 
-## 4. Pequeñas Correcciones (¡Me equivoqué!)
+## 4. Pequeñas Correcciones
 
 *   **Me equivoqué al hacer `git add`:** (Sacar un archivo de la zona de preparación).
     ```bash
@@ -215,11 +237,19 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 
 alias gs='git status'
-alias ga='git add .'
-alias gc='git commit -m'
+alias gd='git diff'
+alias ga='git add -A'
 alias gp='git push'
 alias gl='git log --oneline --graph --decorate'
 ```
+
+_gc_ para hacer git commit sin necesidad de comillas
+```bash
+gc() {
+        git commit -m "$@"
+}
+```
+
 _normi_ limpia la consola y pasa norminette.
 ```bash
 normi() {
