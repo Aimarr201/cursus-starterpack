@@ -1,4 +1,4 @@
-# Guía de Supervivencia: Git de Cero a Héroe
+# Guía de Supervivencia de Git
 
 Esta guía está diseñada para entender Git paso a paso, desde lo más básico hasta cómo colaborar en un equipo sin romper nada. Ideal para una presentación rápida.
 

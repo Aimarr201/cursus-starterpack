@@ -1,5 +1,9 @@
 # Cursus starterpack
 
+Bienvenido al starterpack. Aquí encontrarás recursos útiles para tu día a día:
+
+- 📖 **[Guía de Supervivencia de Git](guiagit.md)**: Una guía rápida y práctica para dominar Git, desde los comandos básicos hasta comandos mas avanzados.
+
 ## Entorno Docker 42
 
 Este proyecto incluye una imagen basada en Debian para trabajar con código de 42 de forma persistente.
