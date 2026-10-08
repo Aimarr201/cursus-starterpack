@@ -155,13 +155,51 @@ La regla es: Una funcionalidad == una rama
     ```bash
     git pull origin main
     ```
-*   **El guardado temporal (Stash):**
-    Imagina que estás a medias con un código, pero necesitas hacer un `pull` o cambiar de rama. Si haces un commit, guardarás código roto. Usa el "cajón" temporal:
+### El guardado temporal (Git Stash)
+
+Imagina que estás a medias con un código, y necesitas hacer un `pull` o cambiar de rama. Si haces un commit, guardarás código roto o incompleto (mala practica). En su lugar, usa el "cajón" temporal (`stash`).
+
+*Ejemplo real:*
+```bash
+# 1. Intentas descargar cambios pero Git se queja de tu código local "sucio"
+$ git pull
+error: Your local changes to the following files would be overwritten by merge:
+    src/main.c
+Please commit your changes or stash them before you merge.
+Aborting
+
+# 2. Guardas tus cambios locales en el cajón
+$ git stash
+
+
+# 3. Haces lo que tengas que hacer, ej cambiar de rama, pull...
+
+# 4. Recuperas tus cambios del cajón y sigues justo donde lo dejaste
+$ git stash pop
+```
+
+Otros comandos útiles:
+*   `git stash list`: Ver todo lo que tienes guardado en el cajón.
+*   `git stash drop`: Eliminar lo último que guardaste sin aplicarlo.
+
+### Tener varios remotos para un proyecto
+
+Si necesitas subir tu código a dos lugares distintos (por ejemplo tu GitHub personal y el repo de entrega) con un solo comando, puedes añadir múltiples URLs de "push" al mismo remoto (`origin`).
+
+1.  **Añade la primera URL (tu repositorio principal):**
     ```bash
-    git stash        # Guarda tus cambios sucios temporalmente
-    # ... haz tu pull o cambia de rama, haz lo que necesites ...
-    git stash pop    # Saca tus cambios del cajón y aplícalos donde estés
+    git remote set-url --add --push origin https://github.com/usuario/repo1.git
     ```
+
+2.  **Añade la segunda URL (tu repositorio secundario):**
+    ```bash
+    git remote set-url --add --push origin https://repodelaintra
+    ```
+
+Al configurar esto, cuando ejecutes el comando normal de push, Git enviará tus cambios automáticamente a ambos servidores. Puedes comprobar tu configuración con:
+```bash
+git remote -v
+```
 
 ---
 
